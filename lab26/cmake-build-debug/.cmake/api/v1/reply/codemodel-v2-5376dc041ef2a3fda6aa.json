@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/artemsorokin/CLionProjects/test/cmake-build-debug",
-		"source" : "/Users/artemsorokin/CLionProjects/test"
+		"build" : "/Users/artemsorokin/Desktop/labs_to_git/lab26/cmake-build-debug",
+		"source" : "/Users/artemsorokin/Desktop/labs_to_git/lab26"
 	},
 	"version" : 
 	{

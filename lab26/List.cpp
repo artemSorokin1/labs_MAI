@@ -55,7 +55,7 @@ public:
 
     void list_pop_back(); //+
 
-    void procedure(List & ls1, List & ls2);
+    void procedure(List & ls1, List & ls2, List & res_ls);
 };
 
 
@@ -223,19 +223,37 @@ T & List<T>::operator[] (int index) {
 
 
 template <typename T>
-void List<T>::procedure(List & ls1, List & ls2) {
-    int max_size = max(ls1.Size, ls2.Size);
-    int min_size = min(ls1.Size, ls2.Size);
-    List res_ls;
+void List<T>::procedure(List & ls1, List & ls2, List & res_ls) {
     res_ls.Size = ls1.Size + ls2.Size;
 
     Node<T> *cur = res_ls.head;
     Node<T> *cur1 = ls1.head;
     Node<T> *cur2 = ls2.head;
-    while (cur1->next != nullptr || cur2->next != nullptr) {
-
+    while (cur1 != nullptr && cur2 != nullptr) {
+        if (cur1->data < cur2->data) {
+            cur = new Node<T>(cur1->data);
+            cur1 = cur1->next;
+            cur = cur->next;
+        } else {
+            cur = new Node<T>(cur2->data);
+            cur2 = cur2->next;
+            cur = cur->next;
+        }
     }
 
+    if (cur1 == nullptr) {
+        while (cur2 != nullptr) {
+            cur = new Node<T>(cur2->data);
+            cur2 = cur2->next;
+            cur = cur->next;
+        }
+    } else {
+        while (cur1 != nullptr) {
+            cur = new Node<T>(cur1->data);
+            cur1 = cur1->next;
+            cur = cur->next;
+        }
+    }
 
 }
 
