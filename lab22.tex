@@ -1,0 +1,120 @@
+\documentclass[12pt]{article}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[legalpaper, margin=1cm, top=3cm]{geometry}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+
+\begin{document}
+
+\setlength{\headsep}{0.8cm}
+\markright{Гл. 2 Предел и непрерывность функции}
+
+\pagestyle{fancy}
+\fancyhf{} 
+\fancyhead[L]{\fontsize{14pt}{12pt}\selectfont248}
+\fancyhead[C]{\fontsize{14pt}{skip}\selectfont\itshape\rightmark}
+
+\fontsize{19pt}{19pt}
+\selectfont
+\setlength{\parindent}{0.8cm}
+
+    \quad Пусть $\varepsilon$ - произвольное положительное число. Возьмем $\delta=\varepsilon$,тогда для любых $x' \in R$, $x'' \in R$ из неравенства $|x' - x''| < \delta$ в силу (1) следует неравенство
+\begin{center}
+    $|sinx' - sinx''| < \delta = \varepsilon.$
+\end{center}
+ \quad Таким образом, функция $y = \sin x$ равномерно непрерывна на $R$. $\Delta$ \\
+ 
+{П р и м е р 2}. Доказать, что функция $y = \frac{1}{x}$: 1) равномерно непрерывна на любом промежутке $[a;+\infty)$, где $a > 0$; 2) не является равномерно непрерывной на любом промежутке $(0;a]$.\\
+\quad $\Delta$ 1) Пусть $x',x'' \in [a;+\infty), a > 0$; тогда
+\begin{center}
+    $\left|\frac{1}{x'} - \frac{1}{x''}\right| = \frac{|x' - x''|}{x'x''} \leq \frac{1}{a^2} \left|x' - x''\right|$
+
+
+\end{center}
+так как $x' \geq a > 0$, $x'' \geq a > 0.$ Пусть $\epsilon$ - произвольное положительное число; возьмем $\delta = a^2 \varepsilon$, тогда для любых $x'$, $x''$ из $[a;+\infty)$ из неравенства $|x' - x''| < \delta$ следует, что
+\begin{center}
+    $\left|\frac{1}{x'} - \frac{1}{x''}\right| < \frac{1}{a^2}\delta = \varepsilon$
+\end{center} 
+Это и означает равномерную непрерывность функции 1/x на промежутке $[a;+\infty), a > 0.$ \\
+\quad 2) Пусть $x'$, $x''$ $\in (0;a]$, где $a > 0$. Из равенства
+\begin{center}
+     $\left|\frac{1}{x'} - \frac{1}{x''}\right| = \frac{|x' - x''|}{x'x''}$
+\end{center}
+видно, что величина $|1/x' - 1/x''|$ будет расти, если при сколь угодно малой,но фиксированной разнице $|x' - x''|$ приближать меньшее из чисел $x'$ или $x''$ к нулю.\\
+\quad Возьмём $x''$ = $x'/2$; тогда $|x' - x''| = x'/2$,
+\begin{center}
+    $| \frac{1}{x'} - \frac{1}{x''} | = \frac{1}{x'}.$
+\end{center}
+Так как $0 < x' < a$, то
+\begin{center}
+    $| \frac{1}{x'} - \frac{1}{x''} | > a.$
+\end{center}
+Чтобы удовлетворить неравенством $x' < a$ и $|x' - x''| = x'/2 < \delta$, достаточно взять $x' = \delta \alpha /(\delta + \alpha).$ Итак, возьмем $\varepsilon = a$ и для произвольного положительного числа $\delta$ возьмем $x' = \delta \alpha /(\delta + \alpha),$ $x'' = \delta \alpha/2(\delta \alpha).$ Тогда
+\begin{center}
+    $|x'-x''| &= \frac{\delta\alpha}{2(\delta+\alpha)} < \delta,$ а $  \
+|\frac{1}{x'}-\frac{1}{x''}| &= \alpha = \epsilon.$
+
+\end{center}
+Следовательно, функция $y=1/x$ не является равномерно непрерывной на $(0;a].$$\Delta$
+
+\quad {П р и м е р 3}. Доказать, что функция $y=\sqrt{x}$ равномерно непрерывна на $[0;+\infty)$. 
+
+\quad Функция $y = \sqrt{x}$ непрерывна на $[0,\infty)$, в том числе и на [0;2]. 
+Значит, по теореме Кантора, она равномерна непрерывна на [0;2].
+
+\newpage
+\setlength{\headsep}{0.8cm}
+\markright{ \textsection 12. Равномерная непрерывность функции }
+
+\pagestyle{fancy}
+\fancyhf{} 
+\fancyhead[L]{\fontsize{14pt}{12pt}\selectfont249}
+\fancyhead[C]{\fontsize{14pt}{skip}\selectfont\itshape\rightmark}
+Докажем,что данная функция равномерно непрерывна на $[1,+\infty)$.\\
+Пусть $x', x'' \in [1;+\infty)$; тогда
+\begin{center}
+    $|\sqrt{x'} - \sqrt{x''}| = \frac{|x' - x''|}{\sqrt{x'} + \sqrt{x''}} \leq \frac{1}{2} |x' - x''|.$
+\end{center}
+Для произвольного $\varepsilon > 0$ возьмем $\delta = 2\varepsilon$, тогда для любых $x',x'' \in [1;+\infty)$ из неравенства $|x' - x''| < \delta$ следует неравенство $|\sqrt{x'} - \sqrt{x''}| < 0.5 \delta = \varepsilon.$ Значит, функция $y = \sqrt{x}$ равномерно непрерывна на $[1;+\infty).$
+
+\quad Докажем, что эта функция равномерно непрерывна на всем промежутке $[0;+\infty).$ Пусть $\varepsilon$ - произвольное положительное число. В силу равномерной непрерывности на [0;2] \\
+$\exists \delta_1 > 0$ $ \forall x' \in [0;2]$ $ \forall x'' \in [0;2]$ $(|x' - x''| < \delta_1 \implies | \sqrt{x'} - \sqrt{x''}| < \varepsilon)$, (2)\\
+а в силу равномерной непрерывности на [1;+\infty)\\
+$\exists \delta_2 > 0$ $ \forall x' \in [1;\infty]$ $ \forall x'' \in [1;\infty]$ $(|x' - x''| < \delta_2 \implies | \sqrt{x'} - \sqrt{x''}| < \varepsilon)$.
+
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad (3) \\
+Возьмем за $\delta$ наименьшее из трех чисел $\delta_1, \delta_2$ и 1, т. е $\delta = min $\{$ \delta_1;\delta_2;1$\}. Тогда для любых $x',x'' \in [0;+\infty)$ из неравенства $|x' - x''| < \delta$ будет, во-первых, следовать (так как $\delta < 1$), что $x'$ и $x''$ оба принадлежат либо [0;2], либо $[1;+\infty)$, а во-вторых, отсюда в силу либо (2), либо (3) будет следовать, что $|\sqrt{x'} - \sqrt{x''}| < \varepsilon$. Значит, функция $y=\sqrt{x}$ равномерно непрерывна на $[0;+\infty).$ 
+
+\quad {П р и м е р 4.} Найти на $(0;+\infty)$ модули непрерывности функций и исследовать с их помощью заданные функции на равномерную непрерывность: 
+
+\quad $y=\sqrt{x}$;  2) $y = sin(1/x)$; 3) $y = 1/\sqrt{x}$. 
+
+\quad  $\Delta$ 1) Пусть $\delta > 0, x', x'' \in (0;+\infty)$, $|x' - x''| \leq \delta$. Положим для определенности $x' > x''$, т. е. $x' = x'' + \Delta x$, где 0 < $\Delta x \leq \delta$. Тогда при любом $x'' > 0$ имеем 
+\begin{center}
+    $|\sqrt{x'} - \sqrt{x''}| $ = $\sqrt{x'' + \Delta x} - \sqrt{x''} \leq \sqrt{x'' + \delta} - \sqrt{x''}$,
+\end{center}
+а
+\begin{center}
+    $\sqrt{x'' + \delta} - \sqrt{x''}$ = \frac{\delta} {\sqrt{x'' + \delta}+\sqrt{x''}} $< \frac{\delta}{\sqrt{\delta}}$ $ = \sqrt{\delta}$, 
+
+\end{center}
+так как $\sqrt{x'' + \delta} + \sqrt{x''} > \sqrt{\delta}$. Итак, $|\sqrt{x'} - \sqrt{x''}| \leq \sqrt{\delta}$ при $|x' - x'' \leq \delta$, значит и
+\begin{center}
+    $\omega(\delta)$ = $\sup\limits_{|x'-x''| \leq \delta} $ $|\sqrt{x'} - \sqrt{x''}| \leq \sqrt{\delta}$,
+
+
+\end{center}
+В то же время при $x' = x'' + \delta$
+\begin{center}
+   $\lim\limits_{x'' \to 0} $$(\sqrt{x''+\delta}-\sqrt{x''})=\sqrt{\delta}$,
+
+\end{center}
+поэтому $\omega(\delta) \geq \sqrt{\delta}$. Отсюда и из предыдущего следует, что $\omega(\delta) = \sqrt{\delta}$, $\delta > 0$. Поскольку
+\begin{center}
+    $\lim\limits_{\delta \to +0}$ $\omega(\delta)$ = $\lim\limits_{\delta \to +0}$ $\sqrt{\delta}$ = 0,
+\end{center}
+
+
+\end{document}
