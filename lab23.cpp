@@ -1,277 +1,302 @@
-﻿#include <iostream>
-#include <vector>
-#include <queue>
+#include <iostream>
+#include <regex>
+
+
 using namespace std;
 
-class BinTree {
-    struct Node {
-        float data;
-        Node* left;
-        Node* right;
-        Node(float val) : data(val), left(NULL), right(NULL) {}
-    };
 
-    Node* root;
-
-public:
-    BinTree() : root(NULL) {}
-
-    void insert(float val) {
-        root = insertNode(root, val);
-    }
-
-    bool search(float val) {
-        return searchNode(root, val);
-    }
-
-    void inOrderTraversal() {
-        inOrderTravesalNode(root);
-        cout << endl;
-    }
-
-    void printTree() {
-        int depth = 0;
-        printTreeNode(root, &depth);
-        cout << endl;
-    }
+typedef struct noode {
+    int value;
+    struct noode* left;
+    struct noode* right;
     
-    void isBreadthIncrease() {
-        if (isStrinctlyIncrease(root))
-            cout << "Breadthly Increase" << endl;
-        else
-            cout << "Not breadthly increase" << endl;
+} noode;
+
+//----------------------------------------------------------------------------------------
+//создание элемента дерева
+
+noode* create_tree_elem(int el) {
+    noode* root = new noode;
+    root->value = el;
+    root->left = NULL;
+    root->right = NULL;
+    return root;
+}
+
+//----------------------------------------------------------------------------------------
+//поиск элемента в дереве
+
+noode* serch_elem_in_tree(noode* root, int elem) {
+    if (root->value == elem) {
+        return root;
     }
+    else if (root->value > elem && root->left != NULL) {
+        return serch_elem_in_tree(root->left, elem);
+    }
+    else if (root->value < elem && root->right != NULL){
+        return serch_elem_in_tree(root->right, elem);
+    }
+        return NULL;
+}
+
+//----------------------------------------------------------------------------------------
+//вствка элемента в дерево
+
+void insert_tree(noode* & root, noode* & elem) {
+    if (root->value > elem->value) {
+        if (root->left == NULL) {
+            root->left = elem;
+        } else {
+            insert_tree(root->left, elem);
+        }
+    } else {
+        if (root->right == NULL) {
+            root->right = elem;
+        } else {
+            insert_tree(root->right, elem);
+        }
+    }
+}
+
+
+//----------------------------------------------------------------------------------------
+//удаление элемента из дерева
+
+noode* deleteElementNode(noode* node, int del) {
+    int key = del;
     
-    bool deleteElement(float el) {
-        int depth = 0;
-        if (root == nullptr) {
-            return false;
-        }
-        else {
-            deleteElementNode(root, el);
-            return true;
-        }
-    }
-    ~BinTree() {
-        delete root;
-    }
-private:
-    Node* insertNode(Node* node, float val) {
-        if (node == nullptr)
-            return new Node(val);
-        if (val < node->data)
-            node->left = insertNode(node->left, val);
-        else if (val > node->data)
-            node->right = insertNode(node->right, val);
+    if (node == nullptr) {
         return node;
     }
-
-    bool searchNode(Node* node, float val) {
-        if (node == nullptr)
-            return false;
-        if (node->data == val)
-            return true;
-        else if (val < node->data)
-            return searchNode(node->left, val);
-        else
-            return searchNode(node->right, val);
-
+    else if (node->value > key) {
+        node->left = deleteElementNode(node->left, key);
     }
-
-    Node* searchEl(Node* node, float val) {
-        auto nodeForDelete = node;
-        if (node->data == val) {
-            nodeForDelete = node;
-            return nodeForDelete;
-        }
-        else if (node->data < val) searchEl(node->right, val);
-        else searchEl(node->left, val);
+    else if (node->value < key) {
+        node->right = deleteElementNode(node->right, key);
     }
-
-    void inOrderTravesalNode(Node* node) {
-        if (node == nullptr)
-            return;
-        inOrderTravesalNode(node->left);
-        cout << node->data << " ";
-        inOrderTravesalNode(node->right);
-
-    }
-
-    void printTreeNode(Node* node, int* depth) {
-        if (node->right != nullptr) {
-            *depth = *depth + 1;
-            printTreeNode(node->right, depth);
+    else {
+        if (!node->left && !node->right) {
+            delete node;
+            return NULL;
         }
-        for (int i = 0; i < *depth; i++) {
-            cout << "  ";
-        }
-        cout << node->data;
-        cout << endl;
-
-        if (node->left != nullptr) {
-            *depth = *depth + 1;
-            printTreeNode(node->left, depth);
-        }
-        *depth = *depth - 1;
-    }
-
-    bool isStrinctlyIncrease(Node* node) {
-        queue<Node*> q;
-        int count = 1;
-        int new_count = count;
-        bool check = true;
-        if (node != nullptr) {
-            q.push(node);
-        }
-        while (!q.empty()) {
-            for (int it = 0; it < count; it++) {
-                if (q.front()->left != nullptr) {
-                    q.push(q.front()->left);
-                    new_count++;
-                }
-                if (q.front()->right != nullptr) {
-                    q.push(q.front()->right);
-                    new_count++;
-                }
-                q.pop();
-                new_count--;
-            }
-            if (new_count != 0 && new_count <= count) {
-                check = false;
-                break;
-            }
-            count = new_count;
-        }
-        if (check) 
-            return true;
-        else 
-            return false;
-    }
-    
-    Node* deleteElementNode(Node* node, float key) {
-        if (node == nullptr) {
-            return node;
-        }
-        else if (node->data > key) {
-            node->left = deleteElementNode(node->left, key);
-        }
-        else if (node->data < key) {
-            node->right = deleteElementNode(node->right, key);
+        else if (!node->left || !node->right) {
+            noode* newRoot = node->left ? node->left : node->right;
+            delete node;
+            return newRoot;
         }
         else {
-            if (!node->left && !node->right) {
-                delete node;
-                return NULL;
+            noode* cur = node->right;
+            while (cur->left) {
+                cur = cur->left;
             }
-            else if (!node->left || !node->right) {
-                Node* newRoot = node->left ? node->left : node->right;
-                delete node;
-                return newRoot;
-            }
-            else {
-                Node* cur = node->right;
-                while (cur->left) {
-                    cur = cur->left;
-                }
-                node->data = cur->data;
-                node->right = deleteElementNode(node->right, cur->data);
-            }
+            node->value = cur->value;
+            node->right = deleteElementNode(node->right, cur->value);
         }
-        return node;
     }
-};
+    return node;
+}
+
+//----------------------------------------------------------------------------------------
+//подсчет кол-ва вершин дерева
+
+int cnt = 1;
+int quantity_elem_in_tree(noode* root) {
+    if (root->left != NULL) {
+        quantity_elem_in_tree(root->left);
+        cnt++;
+    }
+    if (root->right != NULL) {
+        quantity_elem_in_tree(root->right);
+        cnt++;
+    }
+    
+    return cnt;
+}
+
+
+//----------------------------------------------------------------------------------------
+//вывод дерева в терминал
+
+int tabs = 0;
+void print_tree(noode*  root) {
+    cout << endl;
+    if (!root) return;
+    tabs += 6;
+    
+    print_tree(root->right);
+    
+    for (int i = 0; i < tabs; ++i) {
+        cout << ' ';
+    }
+    cout << root->value << endl << endl;
+    
+    print_tree(root->left);
+    
+    tabs -= 6;
+    
+    return;
+}
+
+//----------------------------------------------------------------------------------------
+//очистка памяти, занимаемой деревом
+
+void free_tree(noode* & root) {
+    if (!root) {
+        return;
+    }
+    free_tree(root->left);
+    free_tree(root->right);
+    delete root;
+    return;
+}
+    
+
+
+//----------------------------------------------------------------------------------------
+
 
 int main() {
     string answer_from_user;
     string next;
     int n;
-    float x;
-
-    cout << "Do u want to create a BST??? Enter y/n\n";
+    noode* root = NULL;
+    cout << "Вы хотите создть бинарное дерево поиска???\n";
     cin >> answer_from_user;
-    link1:
-        if (answer_from_user == "y") {
-            cout << "The tree is created\n";
-        }
-        else if (answer_from_user == "n"){
-            cout << "See you" << endl;
-            return 0;
-        }
-        else{
-            cout << "Enter y/n";
-            goto link1;
-        }
-    BinTree bst;
-    cout << "Do you want to do any operation. Enter y to countinue\n";
+    if (answer_from_user == "да") {
+        cout << "Дерево создано!!!\n";
+    } else {
+        cout << "До скорых встреч!!!" << endl;
+        root = nullptr;
+        return 0;
+    }
+    
+    cout << "Хотите выполнить какую-либо операцию над деревом???\n";
     cin >> answer_from_user;
-    if (answer_from_user == "y") {
-    link2:
-        cout << "I can do these features:\n";
-        cout << "1. Append els to the tree\n";
-        cout << "2. Search els in the tree\n";
-        cout << "3. Remove els from the tree\n";
-        cout << "4. Check if the tree is breathly increase\n";
-        cout << "5. Print the tree\n";
-    link:
+    if (answer_from_user == "да") {
+        link2:
+        cout << "Я умею выполнять следующие операции:\n";
+        cout << "1. Добавлять элемент/элементы в дерево\n";
+        cout << "2. Искать элемент в дереве\n";
+        cout << "3. Удалять элемент из дерева\n";
+        cout << "4. Считать количество вершин в дереве\n";
+        cout << "5. Выводить дерево в терминал\n";
+        //с помощью регулярок 1,2,3,4,5 или один и т.д.
+        link:
         cin >> answer_from_user;
         if (answer_from_user == "1") {
-            cout << "Enter how many els you want to add to the tree ";
+            cout << "Введите количество элементов, которые хотите добавить: ";
             cin >> n;
-            vector <float> arr;
-            cout << "Please, enter elements: ";
+            int a[n];
+            cout << "Введите элементы: ";
             for (int i = 0; i < n; ++i) {
-                cin >> x;
-                arr.push_back(x);
+                cin >> a[i];
             }
-            for (int i = 0; i < n; ++i) {
-                bst.insert(arr[i]);
-            }
-                cout << "The elements are appended" << '\n';
-            }
-        else if (answer_from_user == "2") {
-            int ell;
-            cout << "Enter element u wanna check: ";
-            cin >> ell;
-            bool temp = bst.search(ell);
-            if (temp == false) cout << "Your element is NOT in the tree\n";
-            else cout << "Oh, you are right!\n";
-        }
-
-        else if (answer_from_user == "3") {
-            int ell;
-            cout << "Enter element u want to remove: ";
-            cin >> ell;
-            if (bst.deleteElement(ell) == true) {
-                bst.deleteElement(ell);
-                cout << "Element was removed\n";
-            }
-            else {
-                cout << "The tree is empty\n";
+            if (root == NULL) {
+                root = create_tree_elem(a[0]);
+                for (int i = 1; i < n; ++i) {
+                    noode* temp = create_tree_elem(a[i]);
+                    insert_tree(root, temp);
+                }
+                cout << "Элементы добавлены" << '\n';
+            } else {
+                for (int i = 0; i < n; ++i) {
+                    noode* temp = create_tree_elem(a[i]);
+                    insert_tree(root, temp);
+                }
+                cout << "Элементы добавлены" << '\n';
             }
             
+            cout << "Хотите продолжить?\n";
+            cin >> next;
+            if (next == "да") {
+                goto link2;
+            } else {
+                cout << "Хорошего дня!" << endl;
             }
-
+        }
+        
+        else if (answer_from_user == "2") {
+            int ell;
+            cout << "Введите элемент, который хотите проверить: ";
+            cin >> ell;
+            noode* temp = serch_elem_in_tree(root, ell);
+            if (temp == NULL) {
+                cout << "Такого элемента не существует(\n";
+            }
+            else cout << "Такой элемент существует)\n";
+            
+            cout << "Хотите продолжить?\n";
+            cin >> next;
+            if (next == "да") {
+                goto link2;
+            } else {
+                cout << "Хорошего дня!" << endl;
+            }
+        }
+        
+        else if (answer_from_user == "3") {
+            int ell;
+            cout << "Введите элемент, который хотите удалить: ";
+            cin >> ell;
+            if (ell == root->value) {
+                cout << "Зачем ты удаляешь корневой элемент" << '\n';
+                cout << "Наказан, пока" << '\n';
+                free_tree(root);
+                return 0;
+            } else {
+                deleteElementNode(root, ell);
+                cout << "Элемент удален\n";
+                
+                cout << "Хотите продолжить?\n";
+                cin >> next;
+                if (next == "да") {
+                    goto link2;
+                } else {
+                    cout << "Хорошего дня!" << endl;
+                }
+            }
+        }
+        
         else if (answer_from_user == "4") {
-            cout << "Checking if the tree is breathly increase: \n";
-            bst.isBreadthIncrease();
+            cout << "Количество вершин в дереве: " << quantity_elem_in_tree(root) << '\n';
+            cnt = 1;
+            
+            cout << "Хотите продолжить?\n";
+            cin >> next;
+            if (next == "да") {
+                goto link2;
+            } else {
+                cout << "Хорошего дня!" << endl;
+            }
         }
-
+        
         else if (answer_from_user == "5") {
-            bst.printTree();
+            print_tree(root);
+            tabs = 0;
+            
+            cout << "Хотите продолжить?\n";
+            cin >> next;
+            if (next == "да") {
+                goto link2;
+            } else {
+                cout << "Хорошего дня!" << endl;
+            }
         }
-    link3:
-        cout << "U want to continue? Enter y/n\n";
-        cin >> next;
-        if (next == "y") {
-            goto link2;
-        }
-        else if (next == "n"){
-            cout << "Have a nice day!" << endl;
-        }
+        
         else {
-            cout << "Please, press y or n" << endl;
-            goto link3;
+            cout << "Я Вас не понял, можете повторить свой ответ" << '\n';
+            goto link;
         }
+        
+    } else {
+        cout << "Рад был помочь!!!" << '\n';
     }
+    
+    
+    free_tree(root);
+    
     return 0;
+    
 }
+
+
